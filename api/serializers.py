@@ -1,5 +1,4 @@
 from rest_framework import serializers
-<<<<<<< HEAD
 from .models import Author, Book
 
 # =======================
@@ -40,11 +39,9 @@ class AuthorSerializer(serializers.ModelSerializer):
 
     # NOTE: The relationship is handled using the 'related_name' in Book model's ForeignKey.
     # This lets DRF automatically fetch the author's books for serialization.
-=======
 from .models import Book  
 
 class BookSerializer(serializers.ModelSerializer):
     class Meta:
         model = Book
         fields = ('title', "author") 
->>>>>>> e6b7f6858cc326b09854aa30769aa37e890f5214
