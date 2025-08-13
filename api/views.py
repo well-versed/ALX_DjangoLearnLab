@@ -1,4 +1,5 @@
-from rest_framework import generics, permissions
+from rest_framework import generics, permissions,filters
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
 from rest_framework import status
@@ -24,6 +25,18 @@ class BookListView(generics.ListAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
     permission_classes = [permissions.AllowAny]  # public read access
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+    filterset_fields = ['title', 'author__name', 'publication_year']  # filter by these fields
+    search_fields = ['title', 'author__name']  # search text in title or author name
+    ordering_fields = ['title', 'publication_year']  # order by title or year
+    ordering = ['title']  # default order
+
+    def get_queryset(self):
+        queryset = Book.objects.all()
+        author_name = self.request.query_params.get('author')
+        if author_name:
+            queryset = queryset.filter(author__name__iexact=author_name)
+        return queryset
 
 
 # Retrieve one book

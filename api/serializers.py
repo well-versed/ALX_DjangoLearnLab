@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import Author, Book
+from django.utils import timezone  # 👈 Add this import at the top
 
 # =======================
 # BookSerializer
@@ -39,9 +40,3 @@ class AuthorSerializer(serializers.ModelSerializer):
 
     # NOTE: The relationship is handled using the 'related_name' in Book model's ForeignKey.
     # This lets DRF automatically fetch the author's books for serialization.
-from .models import Book  
-
-class BookSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Book
-        fields = ('title', "author") 
